@@ -19,3 +19,8 @@ Line 22 has the logging setting. Set the level to ERROR if you
 don't want to see much output, or DEBUG if you feel cool seeing
 text scroll up the terminal. There will be some expected 
 exceptions.
+==INDEXER==
+After completing the index, the indexer will prompt for a
+searchterm from the user. It will then return the total number
+of results that match the term. Of those matched, the top 10
+goddesses and their ID will be printed.
