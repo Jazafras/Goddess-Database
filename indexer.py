@@ -7,6 +7,7 @@ from whoosh.index import create_in
 from whoosh.fields import *
 from whoosh.qparser import QueryParser
 from whoosh.qparser import MultifieldParser
+from whoosh.analysis import StemmingAnalyzer
 from lxml import html
 from lxml.html.clean import clean_html
 
@@ -47,8 +48,9 @@ def get_text_from_html(html_string):
         return html_string
 
 def index():
+    stemmer = StemmingAnalyzer()
     schema = Schema(images=TEXT(stored=True), pageid=ID(stored=True),
-                    title=ID(stored=True), extract=TEXT(stored=False))
+                    title=ID(stored=True), extract=TEXT(analyzer=stemmer, stored=False))
     indexer = create_in("index_dir", schema)
     """
     It's pretty rare to want to use something other than a context
