@@ -2,10 +2,16 @@ import os
 import sys
 import json
 import whoosh
+import logging
 from whoosh.index import create_in
 from whoosh.fields import *
 from whoosh.qparser import QueryParser
 from whoosh.qparser import MultifieldParser
+from lxml import html
+from lxml.html.clean import clean_html
+
+logging.getLogger().setLevel(logging.INFO)
+logging.getLogger().addHandler(logging.StreamHandler(sys.stdout))
 
 
 def iter_goddess():
@@ -20,13 +26,25 @@ def iter_goddess():
             yield json.load(fp)
 
 
-def search(indexer, searchTerm):
+def search(indexer, query_string):
     with indexer.searcher() as searcher:
-        query = MultifieldParser(["title", "extract"], schema=indexer.schema).parse(searchTerm)
+        query = MultifieldParser(["title", "extract"], schema=indexer.schema).parse(query_string)
         results = searcher.search(query)
         print("Length of results: " + str(len(results)))
         for line in results[:50]:
             print(line['title'] + ": " + line['pageid'])
+
+def get_text_from_html(html_string):
+    """https://stackoverflow.com/posts/42461722/revisions"""
+    if html_string == "":
+        return None
+    try:
+        tree = html.fromstring(html_string)
+        clean_tree = clean_html(tree)
+        return clean_tree.text_content().strip()
+    except XMLSyntaxError:
+        logging.exception("Error encountered trying to parse \"{}\"".format(html_string))
+        return html_string
 
 def index():
     schema = Schema(images=TEXT(stored=True), pageid=ID(stored=True),
@@ -47,15 +65,16 @@ def index():
     # where we check to see if they've grabbed one exactly.
     with indexer.writer() as wr:
         for goddess in iter_goddess():
+            logging.debug("Indexing {} (ID {})".format(goddess['title'], goddess['pageid']))
             wr.add_document(title=goddess['title'],
-                            extract=goddess['extract'],
+                            extract=get_text_from_html(goddess['extract']),
                             pageid=str(goddess['pageid']),
                             images=str(goddess['images']) if 'images' in goddess else "")
 
     return indexer
 
 def main():
-    searchTerm = 'First OR Second'
+    searchTerm = 'murder'
     indexer = index()
     results = search(indexer, searchTerm)
 
