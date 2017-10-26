@@ -28,11 +28,13 @@ def iter_goddess():
 
 def search(indexer, query_string):
     with indexer.searcher() as searcher:
-        query = MultifieldParser(["title", "extract"], schema=indexer.schema).parse(query_string)
+        query = MultifieldParser(
+            ["title", "extract"], schema=indexer.schema).parse(query_string)
         results = searcher.search(query)
         print("Length of results: " + str(len(results)))
-        for line in results: #this is still only 10
+        for line in results:  #this is still only 10
             print(line['title'] + ": " + line['pageid'])
+
 
 def get_text_from_html(html_string):
     """https://stackoverflow.com/posts/42461722/revisions"""
@@ -43,13 +45,18 @@ def get_text_from_html(html_string):
         clean_tree = clean_html(tree)
         return clean_tree.text_content().strip()
     except XMLSyntaxError:
-        logging.exception("Error encountered trying to parse \"{}\"".format(html_string))
+        logging.exception(
+            "Error encountered trying to parse \"{}\"".format(html_string))
         return html_string
+
 
 def index():
     stemmer = StemmingAnalyzer()
-    schema = Schema(images=TEXT(stored=True), pageid=ID(stored=True),
-                    title=ID(stored=True), extract=TEXT(analyzer=stemmer, stored=False))
+    schema = Schema(
+        images=TEXT(stored=True),
+        pageid=ID(stored=True),
+        title=ID(stored=True),
+        extract=TEXT(analyzer=stemmer, stored=False))
     indexer = create_in("index_dir", schema)
     """
     It's pretty rare to want to use something other than a context
@@ -66,19 +73,21 @@ def index():
     # where we check to see if they've grabbed one exactly.
     with indexer.writer() as wr:
         for goddess in iter_goddess():
-            logging.debug("Indexing {} (ID {})".format(goddess['title'], goddess['pageid']))
-            wr.add_document(title=goddess['title'],
-                            extract=get_text_from_html(goddess['extract']),
-                            pageid=str(goddess['pageid']),
-                            images=str(goddess['images']) if 'images' in goddess else "")
+            logging.debug("Indexing {} (ID {})".format(goddess['title'],
+                                                       goddess['pageid']))
+            wr.add_document(
+                title=goddess['title'],
+                extract=get_text_from_html(goddess['extract']),
+                pageid=str(goddess['pageid']),
+                images=str(goddess['images']) if 'images' in goddess else "")
 
     return indexer
+
 
 def main():
     searchTerm = 'murder'
     indexer = index()
     results = search(indexer, searchTerm)
-
 
 
 if __name__ == '__main__':
