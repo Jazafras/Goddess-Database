@@ -20,12 +20,6 @@ import requests
 import json
 import re
 
-import whoosh
-from whoosh.index import create_in
-from whoosh.fields import *
-from whoosh.qparser import QueryParser
-from whoosh.qparser import MultifieldParser
-
 wiki = "https://en.wikipedia.org/w/api.php"
 
 logging.basicConfig(stream=sys.stderr, level=logging.INFO)
@@ -185,7 +179,7 @@ def save_images():
             continue
         try:
             url = get_url_from_title(title)
-            logging.debug("Downloading {} from {}".format(title, url)) 
+            logging.debug("Downloading {} from {}".format(title, url))
             download_image(url, title)
         except et.ParseError:
             logging.exception("Error getting {}".format(title))

@@ -1,9 +1,17 @@
+import os
 import sys
+import json
 import whoosh
+import logging
 from whoosh.index import create_in
 from whoosh.fields import *
 from whoosh.qparser import QueryParser
 from whoosh.qparser import MultifieldParser
+from whoosh.analysis import StemmingAnalyzer
+from lxml import html
+from lxml.html.clean import clean_html
+
+logging.basicConfig(stream=sys.stderr, level=logging.INFO)
 
 
 def iter_goddess():
@@ -18,17 +26,46 @@ def iter_goddess():
             yield json.load(fp)
 
 
-def search(indexer, searchTerm):
+def search(indexer, query_string):
     with indexer.searcher() as searcher:
-        query = MultifieldParser(["title", "content"], schema=indexer.schema).parse(searchTerm)
-        results = searcher.search(query)
-        print("Length of results: " + str(len(results)))
-        for line in results:
-            print line['title'] + ": " + line['content']
+        exact_query = QueryParser(
+            "title", schema=indexer.schema).parse(query_string)
+        all_query = MultifieldParser(
+            ["title", "extract"], schema=indexer.schema).parse(query_string)
+        results = searcher.search(exact_query)
+        if len(results) > 0:
+            print("Query found title result:")
+            for line in results:
+                print(line['title'] + ": " + line['pageid'])
+        else:
+            results = searcher.search(all_query)
+            print("Length of results: " + str(len(results)))
+            for line in results:  #this is still only 10
+                print(line['title'] + ": " + line['pageid'])
+
+
+def get_text_from_html(html_string):
+    """https://stackoverflow.com/posts/42461722/revisions"""
+    if html_string == "":
+        return None
+    try:
+        tree = html.fromstring(html_string)
+        clean_tree = clean_html(tree)
+        return clean_tree.text_content().strip()
+    except XMLSyntaxError:
+        logging.exception(
+            "Error encountered trying to parse \"{}\"".format(html_string))
+        return html_string
+
 
 def index():
-    schema = Schema(title=TEXT(stored=True), path=ID(stored=True), content=TEXT(stored=True))
-    indexer = create_in("indexDir", schema)
+    stemmer = StemmingAnalyzer()
+    schema = Schema(
+        images=TEXT(stored=True),
+        pageid=ID(stored=True),
+        title=ID(stored=True),
+        extract=TEXT(analyzer=stemmer, stored=False))
+    indexer = create_in("index_dir", schema)
     """
     It's pretty rare to want to use something other than a context
     manager when one's available.
@@ -38,17 +75,27 @@ def index():
     writer.add_document(title=u"Second document", path=u"/b", content=u"The second one is even more interesting!")
     writer.commit()
     """
+    # we're going to want to index based on the rendered html, I'd think.
+    # there should be something in the stdlibs for that.
+    # I'm guessing the titles should be IDs so we can do the 2-step thing
+    # where we check to see if they've grabbed one exactly.
     with indexer.writer() as wr:
-        wr.add_document(title="here is one", path="lol", content="whatever")
-        wr.add_document(title="another", path="rofl", content="also whatever")
+        for goddess in iter_goddess():
+            logging.debug("Indexing {} (ID {})".format(goddess['title'],
+                                                       goddess['pageid']))
+            wr.add_document(
+                title=goddess['title'],
+                extract=get_text_from_html(goddess['extract']),
+                pageid=str(goddess['pageid']),
+                images=str(goddess['images']) if 'images' in goddess else "")
 
     return indexer
 
+
 def main():
-    searchTerm = 'First OR Second'
+    searchTerm = 'Parvati'
     indexer = index()
     results = search(indexer, searchTerm)
-
 
 
 if __name__ == '__main__':
