@@ -21,4 +21,6 @@ text scroll up the terminal. There will be some expected
 exceptions.
 ==INDEXER==
 Upon execution, the indexer will prompt for a searchterm from the
-user and return up to 10 goddesses that match the search. 
+user. It will then return the total number of results that match
+the term. Of those matched, the top 10 goddesses and their ID will
+be printed.
