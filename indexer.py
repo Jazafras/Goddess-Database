@@ -28,12 +28,20 @@ def iter_goddess():
 
 def search(indexer, query_string):
     with indexer.searcher() as searcher:
-        query = MultifieldParser(
+        exact_query = QueryParser(
+            "title", schema=indexer.schema).parse(query_string)
+        all_query = MultifieldParser(
             ["title", "extract"], schema=indexer.schema).parse(query_string)
-        results = searcher.search(query)
-        print("Length of results: " + str(len(results)))
-        for line in results:  #this is still only 10
-            print(line['title'] + ": " + line['pageid'])
+        results = searcher.search(exact_query)
+        if len(results) > 0:
+            print("Query found title result:")
+            for line in results:
+                print(line['title'] + ": " + line['pageid'])
+        else:
+            results = searcher.search(all_query)
+            print("Length of results: " + str(len(results)))
+            for line in results:  #this is still only 10
+                print(line['title'] + ": " + line['pageid'])
 
 
 def get_text_from_html(html_string):
@@ -85,7 +93,7 @@ def index():
 
 
 def main():
-    searchTerm = 'murder'
+    searchTerm = 'Parvati'
     indexer = index()
     results = search(indexer, searchTerm)
 
