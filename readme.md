@@ -19,3 +19,6 @@ Line 22 has the logging setting. Set the level to ERROR if you
 don't want to see much output, or DEBUG if you feel cool seeing
 text scroll up the terminal. There will be some expected 
 exceptions.
+==INDEXER==
+Upon execution, the indexer will prompt for a searchterm from the
+user and return up to 10 goddesses that match the search. 

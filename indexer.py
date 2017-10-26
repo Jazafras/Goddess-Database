@@ -22,7 +22,7 @@ def iter_goddess():
         # this line is a little hacky: we don't want the category jsons
         if not filename.endswith(".json") or filename.endswith("s.json"):
             continue
-        with open(os.path.join("data", filename), 'r') as fp:
+        with open(os.path.join("data/categories", filename), 'r') as fp:
             yield json.load(fp)
 
 
@@ -93,7 +93,9 @@ def index():
 
 
 def main():
-    searchTerm = 'Parvati'
+    print("Directory of Goddesses")
+    searchTerm = input("Search a Goddess:  ")
+    #searchTerm = 'Parvati'
     indexer = index()
     results = search(indexer, searchTerm)
 
