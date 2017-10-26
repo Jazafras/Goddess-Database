@@ -11,8 +11,7 @@ from whoosh.analysis import StemmingAnalyzer
 from lxml import html
 from lxml.html.clean import clean_html
 
-logging.getLogger().setLevel(logging.INFO)
-logging.getLogger().addHandler(logging.StreamHandler(sys.stdout))
+logging.basicConfig(stream=sys.stderr, level=logging.INFO)
 
 
 def iter_goddess():
@@ -32,7 +31,7 @@ def search(indexer, query_string):
         query = MultifieldParser(["title", "extract"], schema=indexer.schema).parse(query_string)
         results = searcher.search(query)
         print("Length of results: " + str(len(results)))
-        for line in results[:50]:
+        for line in results: #this is still only 10
             print(line['title'] + ": " + line['pageid'])
 
 def get_text_from_html(html_string):
