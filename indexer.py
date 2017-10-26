@@ -23,7 +23,6 @@ def iter_goddess():
         if not filename.endswith(".json") or filename.endswith("s.json"):
             continue
         with open(os.path.join("data", filename), 'r') as fp:
-            print(filename)
             yield json.load(fp)
 
 
@@ -95,7 +94,8 @@ def index():
 
 
 def main():
-    searchTerm = 'death'
+    print("Directory of Goddesses")
+    searchTerm = input("Search a Goddess:  ")
     indexer = index()
     results = search(indexer, searchTerm)
 
