@@ -1,4 +1,6 @@
+import os
 import sys
+import json
 import whoosh
 from whoosh.index import create_in
 from whoosh.fields import *
@@ -20,15 +22,16 @@ def iter_goddess():
 
 def search(indexer, searchTerm):
     with indexer.searcher() as searcher:
-        query = MultifieldParser(["title", "content"], schema=indexer.schema).parse(searchTerm)
+        query = MultifieldParser(["title", "extract"], schema=indexer.schema).parse(searchTerm)
         results = searcher.search(query)
         print("Length of results: " + str(len(results)))
-        for line in results:
-            print line['title'] + ": " + line['content']
+        for line in results[:50]:
+            print(line['title'] + ": " + line['pageid'])
 
 def index():
-    schema = Schema(title=TEXT(stored=True), path=ID(stored=True), content=TEXT(stored=True))
-    indexer = create_in("indexDir", schema)
+    schema = Schema(images=TEXT(stored=True), pageid=ID(stored=True),
+                    title=ID(stored=True), extract=TEXT(stored=False))
+    indexer = create_in("index_dir", schema)
     """
     It's pretty rare to want to use something other than a context
     manager when one's available.
@@ -38,9 +41,16 @@ def index():
     writer.add_document(title=u"Second document", path=u"/b", content=u"The second one is even more interesting!")
     writer.commit()
     """
+    # we're going to want to index based on the rendered html, I'd think.
+    # there should be something in the stdlibs for that.
+    # I'm guessing the titles should be IDs so we can do the 2-step thing
+    # where we check to see if they've grabbed one exactly.
     with indexer.writer() as wr:
-        wr.add_document(title="here is one", path="lol", content="whatever")
-        wr.add_document(title="another", path="rofl", content="also whatever")
+        for goddess in iter_goddess():
+            wr.add_document(title=goddess['title'],
+                            extract=goddess['extract'],
+                            pageid=str(goddess['pageid']),
+                            images=str(goddess['images']) if 'images' in goddess else "")
 
     return indexer
 
