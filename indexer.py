@@ -23,6 +23,7 @@ def iter_goddess():
         if not filename.endswith(".json") or filename.endswith("s.json"):
             continue
         with open(os.path.join("data", filename), 'r') as fp:
+            print(filename)
             yield json.load(fp)
 
 
@@ -80,20 +81,21 @@ def index():
     # I'm guessing the titles should be IDs so we can do the 2-step thing
     # where we check to see if they've grabbed one exactly.
     with indexer.writer() as wr:
+        #not a goddess, a goddess category. They're in data/categories.
         for goddess in iter_goddess():
             logging.debug("Indexing {} (ID {})".format(goddess['title'],
-                                                       goddess['pageid']))
+                                                str(goddess['pageid'])))
             wr.add_document(
-                title=goddess['title'],
-                extract=get_text_from_html(goddess['extract']),
-                pageid=str(goddess['pageid']),
-                images=str(goddess['images']) if 'images' in goddess else "")
-
+            title=goddess['title'],
+            extract=get_text_from_html(goddess['extract']),
+            pageid=str(goddess['pageid']),
+            images=str(goddess['images']) if 'images' in goddess else ""
+            )
     return indexer
 
 
 def main():
-    searchTerm = 'Parvati'
+    searchTerm = 'death'
     indexer = index()
     results = search(indexer, searchTerm)
 
