@@ -1,7 +1,9 @@
 """
 Maya K. Hess
+Jasmine Emerson
+Monte Roden
 CS483-Web Data
-HW 1
+HW 3
 I rewrote the template and shared that before implementing anything.
 Some people will have credited me, probably, some won't, but I ended
 up changing mine substantially with the extra necessary params anyway.
@@ -17,6 +19,13 @@ from xml.etree import ElementTree as et
 import requests
 import json
 import re
+
+import whoosh
+from whoosh.index import create_in
+from whoosh.fields import *
+from whoosh.qparser import QueryParser
+from whoosh.qparser import MultifieldParser
+
 wiki = "https://en.wikipedia.org/w/api.php"
 
 logging.basicConfig(stream=sys.stderr, level=logging.INFO)

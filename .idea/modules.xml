@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/Web-Data-Goddesses.iml" filepath="$PROJECT_DIR$/.idea/Web-Data-Goddesses.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../Whoosh Testing/.idea/Whoosh Testing.iml" filepath="$PROJECT_DIR$/../Whoosh Testing/.idea/Whoosh Testing.iml" />
+    </modules>
+  </component>
+</project>
