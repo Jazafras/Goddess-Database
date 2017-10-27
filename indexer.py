@@ -3,7 +3,7 @@ import sys
 import json
 import whoosh
 import logging
-from whoosh.index import create_in
+from whoosh.index import create_in, open_dir
 from whoosh.fields import *
 from whoosh.qparser import QueryParser
 from whoosh.qparser import MultifieldParser
@@ -26,6 +26,11 @@ def iter_goddess():
             yield json.load(fp)
 
 
+def load_goddess(goddess_id):
+    with open(os.path.join("data", goddess_id + ".json"), 'r') as fp:
+        return json.load(fp)
+
+
 def search(indexer, query_string):
     with indexer.searcher() as searcher:
         exact_query = QueryParser(
@@ -35,13 +40,15 @@ def search(indexer, query_string):
         results = searcher.search(exact_query)
         if len(results) > 0:
             print("Query found title result:")
-            for line in results:
-                print(line['title'] + ": " + line['pageid'])
         else:
             results = searcher.search(all_query)
             print("Length of results: " + str(len(results)))
-            for line in results:  #this is still only 10
-                print(line['title'] + ": " + line['pageid'])
+        for line in results:  # just the first 10
+            print(line['title'] + ": " + line['pageid'])
+            extract_extract = get_text_from_html(
+                load_goddess(line['pageid'])['extract'])
+            print("Extract of article: {}".format(extract_extract)[:1000])
+            print("..." if len(extract_extract) > 1000 else "")
 
 
 def get_text_from_html(html_string):
@@ -58,7 +65,7 @@ def get_text_from_html(html_string):
         return html_string
 
 
-def index():
+def build_index():
     stemmer = StemmingAnalyzer()
     schema = Schema(
         images=TEXT(stored=True),
@@ -66,38 +73,31 @@ def index():
         title=ID(stored=True),
         extract=TEXT(analyzer=stemmer, stored=False))
     indexer = create_in("index_dir", schema)
-    """
-    It's pretty rare to want to use something other than a context
-    manager when one's available.
-
-    writer = indexer.writer()
-    writer.add_document(title=u"First document", path=u"/a", content=u"This is the document we've added!")
-    writer.add_document(title=u"Second document", path=u"/b", content=u"The second one is even more interesting!")
-    writer.commit()
-    """
-    # we're going to want to index based on the rendered html, I'd think.
-    # there should be something in the stdlibs for that.
-    # I'm guessing the titles should be IDs so we can do the 2-step thing
-    # where we check to see if they've grabbed one exactly.
     with indexer.writer() as wr:
         #not a goddess, a goddess category. They're in data/categories.
         for goddess in iter_goddess():
             logging.debug("Indexing {} (ID {})".format(goddess['title'],
-                                                str(goddess['pageid'])))
+                                                       str(goddess['pageid'])))
             wr.add_document(
-            title=goddess['title'],
-            extract=get_text_from_html(goddess['extract']),
-            pageid=str(goddess['pageid']),
-            images=str(goddess['images']) if 'images' in goddess else ""
-            )
+                title=goddess['title'],
+                extract=get_text_from_html(goddess['extract']),
+                pageid=str(goddess['pageid']),
+                images=str(goddess['images']) if 'images' in goddess else "")
     return indexer
 
 
+def load_index():
+    return open_dir("index_dir")
+
+
 def main():
-    print("Directory of Goddesses")
+    print("Directory of Goddesses (search \"exit\" to quit)")
+    # indexer = build_index()
+    indexer = load_index()
     searchTerm = input("Search a Goddess:  ")
-    indexer = index()
-    results = search(indexer, searchTerm)
+    while searchTerm != "exit":
+        results = search(indexer, searchTerm)
+        searchTerm = input("Search a Goddess:  ")
 
 
 if __name__ == '__main__':
