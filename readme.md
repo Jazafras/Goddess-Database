@@ -23,4 +23,5 @@ exceptions.
 indexer.py contains a function that builds an index and a function that
 can search through the index. The user will be prompted for a searchterm
 and have the total number of results that match the term returned.
-Of those matched, the top 10 goddesses and their ID will be printed.
+Of those matched, the top 10 goddesses, their ID, and <1000 characters of their
+article extract will be printed.
