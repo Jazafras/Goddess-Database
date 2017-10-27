@@ -55,11 +55,11 @@ def search(indexer, query_string):
             results = searcher.search(all_query)
             print("Length of results: " + str(len(results)))
         for line in results:  # just the first 10
-            print(line['title'] + ": " + line['pageid'])
+            print(line['title'] + ": " + line['pageid'] + ": " + line['categories'])
             extract_extract = get_text_from_html(
                 load_goddess(line['pageid'])['extract'])
-            #print("Extract of article: {}".format(extract_extract)[:1000])
-            #print("..." if len(extract_extract) > 1000 else "")
+            print("Extract of article: {}".format(extract_extract)[:1000])
+            print("..." if len(extract_extract) > 1000 else "")
             #Issues have been had with the previous 2 lines on my [Monte's] Windows8 Box...
             #I'm also not sure how to print the categories... sad.
 
@@ -86,7 +86,7 @@ def build_index():
     schema = Schema(
         images=TEXT(stored=True),
         pageid=ID(stored=True),
-        categories=TEXT(stored=False),
+        categories=TEXT(stored=True),
         title=ID(stored=True),
         extract=TEXT(analyzer=stemmer, stored=False))
     if not os.path.exists("index_dir"):
