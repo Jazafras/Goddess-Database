@@ -1,3 +1,10 @@
+"""
+Maya K. Hess
+Jasmine Emerson
+Monte Roden
+CS483-Web Data
+HW 3
+"""
 import os
 import sys
 import json
@@ -72,26 +79,6 @@ def get_text_from_html(html_string):
             "Error encountered trying to parse \"{}\"".format(html_string))
         return html_string  # this is a design choice we may come back to
 
-
-def get_goddess_categories(goddess_id):
-    categories = []
-    titles = []
-    data = json.load(open('data/cultures.json'))
-    for category_key, sub_list in data.items():
-        for entry in sub_list:
-            if int(entry[0]) == int(goddess_id):
-                categories.append(category_key)
-    data = json.load(open('data/associations.json'))
-    for category_key, sub_list in data.items():
-        for entry in sub_list:
-            if int(entry[0]) == int(goddess_id):
-                categories.append(category_key)
-
-    for category in categories:
-        data = json.load(open('data/category_titles/{}.json'.format(category)))
-        titles.append(data[0])
-    return ", ".join(map(str, titles))
-
 def build_index():
     """Build an index stemming extracts.
     Stores image info because these may be needed later for results display."""
@@ -113,7 +100,8 @@ def build_index():
                 title=goddess['title'],
                 extract=get_text_from_html(goddess['extract']),
                 pageid=str(goddess['pageid']),
-                categories=get_goddess_categories(goddess['pageid']),
+                #Categories was a list, make it a string to search it
+                categories=", ".join(map(str, goddess['categories'])), 
                 images=str(goddess['images']) if 'images' in goddess else ""
                 ),
     return indexer

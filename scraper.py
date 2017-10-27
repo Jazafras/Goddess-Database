@@ -210,6 +210,32 @@ def download_image(image_url, title):
         trim_prefix(title), image_url[-4:] if title.endswith('.svg') else "")
     os.system('wget {} -O "{}"'.format(image_url[2:], path))
 
+def get_categories():
+    """Appends a 'category' element to each of the goddess jsons.
+    A 'category' is a list of assocations/cultures."""
+    #looping through the data directory for goddesses, copied from indexer.py
+    for filename in os.listdir("data"):
+        if not filename.endswith(".json") or filename.endswith("s.json"):
+            continue
+        with open(os.path.join("data", filename), 'b') as fp:
+            goddess = json.load(fp)
+            category_keys = []
+            category_titles = []
+            data = json.load(open('data/cultures.json'))
+            for category_key, sub_list in data.items():
+                for entry in sub_list:
+                    if entry[0] == goddess['pageid']:
+                        category_keys.append(category_key)
+            data = json.load(open('data/associations.json'))
+            for category_key, sub_list in data.items():
+                for entry in sub_list:
+                    if entry[0] == goddess['pageid']:
+                        category_keys.append(category_key)
+            for category in category_keys:
+                data = json.load(open('data/category_titles/{}.json'.format(goddess['pageid'])))
+                category_titles.append(data[0])
+            goddess['categories'] = category_titles
+            json.dump(goddess, fp)
 
 def already_have_image(title):
     """This is a convenience function for the debug process so you don't
@@ -217,7 +243,6 @@ def already_have_image(title):
     return any(
         filename.startswith(trim_prefix(title))
         for filename in os.listdir('data/images'))
-
 
 def setup():
     logging.info("Making directories!")
@@ -232,6 +257,7 @@ def main():
     save_page_jsons()
     # 160mb of images: you probably don't want to do this just for grading.
     # save_images()
+    #get_categories()
 
 
 if __name__ == '__main__':
