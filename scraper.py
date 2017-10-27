@@ -214,11 +214,14 @@ def get_categories():
     """Appends a 'category' element to each of the goddess jsons.
     A 'category' is a list of assocations/cultures."""
     #looping through the data directory for goddesses, copied from indexer.py
+    logging.info("Saving categories...")
     for filename in os.listdir("data"):
         if not filename.endswith(".json") or filename.endswith("s.json"):
             continue
-        with open(os.path.join("data", filename), 'b') as fp:
+        with open(os.path.join("data", filename), 'r+') as fp:
             goddess = json.load(fp)
+            if 'categories' in goddess:
+                continue
             category_keys = []
             category_titles = []
             data = json.load(open('data/cultures.json'))
@@ -232,9 +235,10 @@ def get_categories():
                     if entry[0] == goddess['pageid']:
                         category_keys.append(category_key)
             for category in category_keys:
-                data = json.load(open('data/category_titles/{}.json'.format(goddess['pageid'])))
+                data = json.load(open('data/category_titles/{}.json'.format(category)))
                 category_titles.append(data[0])
             goddess['categories'] = category_titles
+            fp.seek(0) #We will now overwrite the .json file, instead of appending somewhere
             json.dump(goddess, fp)
 
 def already_have_image(title):
@@ -257,7 +261,7 @@ def main():
     save_page_jsons()
     # 160mb of images: you probably don't want to do this just for grading.
     # save_images()
-    #get_categories()
+    get_categories()
 
 
 if __name__ == '__main__':
