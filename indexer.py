@@ -15,9 +15,7 @@ logging.basicConfig(stream=sys.stderr, level=logging.INFO)
 
 
 def iter_goddess():
-    """This is from my scraper.
-    Seems handy, don't it!
-    """
+    """Iterate through data dir and load JSON objects."""
     for filename in os.listdir("data"):
         # this line is a little hacky: we don't want the category jsons
         if not filename.endswith(".json") or filename.endswith("s.json"):
@@ -27,19 +25,25 @@ def iter_goddess():
 
 
 def load_goddess(goddess_id):
+    """Use specific goddess ID to load the particular file."""
+    logging.debug("Loading {}.json".format(goddess_id))
     with open(os.path.join("data", goddess_id + ".json"), 'r') as fp:
         return json.load(fp)
 
 
 def search(indexer, query_string):
+    """Search for query string in title and extract.
+    If an exact title match is found, prefers this single result."""
     with indexer.searcher() as searcher:
+        # ideally these parsers would not be created with each search
+        # but we can change that later
         exact_query = QueryParser(
             "title", schema=indexer.schema).parse(query_string)
         all_query = MultifieldParser(
             ["title", "extract"], schema=indexer.schema).parse(query_string)
         results = searcher.search(exact_query)
         if len(results) > 0:
-            print("Query found title result:")
+            print("Query found exact title result:")
         else:
             results = searcher.search(all_query)
             print("Length of results: " + str(len(results)))
@@ -52,7 +56,9 @@ def search(indexer, query_string):
 
 
 def get_text_from_html(html_string):
-    """https://stackoverflow.com/posts/42461722/revisions"""
+    """From https://stackoverflow.com/posts/42461722/revisions
+    Take the HTML markup out of the stored extracts to only index text,
+    display cleanly."""
     if html_string == "":
         return None
     try:
@@ -62,19 +68,22 @@ def get_text_from_html(html_string):
     except XMLSyntaxError:
         logging.exception(
             "Error encountered trying to parse \"{}\"".format(html_string))
-        return html_string
+        return html_string  # this is a design choice we may come back to
 
 
 def build_index():
+    """Build an index stemming extracts.
+    Stores image info because these may be needed later for results display."""
     stemmer = StemmingAnalyzer()
     schema = Schema(
         images=TEXT(stored=True),
         pageid=ID(stored=True),
         title=ID(stored=True),
         extract=TEXT(analyzer=stemmer, stored=False))
+    if not os.path.exists("index_dir"):
+        os.mkdir("index_dir")
     indexer = create_in("index_dir", schema)
     with indexer.writer() as wr:
-        #not a goddess, a goddess category. They're in data/categories.
         for goddess in iter_goddess():
             logging.debug("Indexing {} (ID {})".format(goddess['title'],
                                                        str(goddess['pageid'])))
@@ -87,13 +96,15 @@ def build_index():
 
 
 def load_index():
+    """Load previously created index."""
     return open_dir("index_dir")
 
 
 def main():
     print("Directory of Goddesses (search \"exit\" to quit)")
-    # indexer = build_index()
-    indexer = load_index()
+    # ATTN PROF. MCCAMISH: COMMENT / UNCOMMENT FOR BUILDING / LOADING
+    indexer = build_index()
+    # indexer = load_index()
     searchTerm = input("Search a Goddess:  ")
     while searchTerm != "exit":
         results = search(indexer, searchTerm)
