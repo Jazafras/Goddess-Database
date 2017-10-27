@@ -20,7 +20,8 @@ don't want to see much output, or DEBUG if you feel cool seeing
 text scroll up the terminal. There will be some expected 
 exceptions.
 ==INDEXER==
-After completing the index, the indexer will prompt for a
-searchterm from the user. It will then return the total number
-of results that match the term. Of those matched, the top 10
-goddesses and their ID will be printed.
+indexer.py contains a function that builds an index and a function that
+can search through the index. The user will be prompted for a searchterm
+and have the total number of results that match the term returned.
+Of those matched, the top 10 goddesses, their ID, and <90 characters of their
+article extract will be printed.
