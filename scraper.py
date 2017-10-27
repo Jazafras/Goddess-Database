@@ -121,11 +121,15 @@ def save_category_contents():
         association_contents[cat_id] = get_category_contents(cmpageid=cat_id)
         with open('data/categories/{}.json'.format(cat_id), 'w') as fp:
             json.dump(association_contents[cat_id], fp)
+        with open('data/category_titles/{}.json'.format(cat_id), 'w') as fp:
+            json.dump([cat_title], fp)
     for cat_id, cat_title in cultures:
         logging.info("Getting pages in {}".format(cat_title))
         culture_contents[cat_id] = get_category_contents(cmpageid=cat_id)
         with open('data/categories/{}.json'.format(cat_id), 'w') as fp:
             json.dump(culture_contents[cat_id], fp)
+        with open('data/category_titles/{}.json'.format(cat_id), 'w') as fp:
+            json.dump([cat_title], fp)
 
     # these larger files are just for convenience loading for batch ops
     with open('data/associations.json', 'w') as fp:
@@ -219,6 +223,7 @@ def setup():
     logging.info("Making directories!")
     os.makedirs('data/images', exist_ok=True)
     os.makedirs('data/categories', exist_ok=True)
+    os.makedirs('data/category_titles', exist_ok=True)
 
 
 def main():

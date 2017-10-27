@@ -40,7 +40,7 @@ def search(indexer, query_string):
         exact_query = QueryParser(
             "title", schema=indexer.schema).parse(query_string)
         all_query = MultifieldParser(
-            ["title", "extract"], schema=indexer.schema).parse(query_string)
+            ["title", "extract", "categories"], schema=indexer.schema).parse(query_string)
         results = searcher.search(exact_query)
         if len(results) > 0:
             print("Query found exact title result:")
@@ -51,8 +51,10 @@ def search(indexer, query_string):
             print(line['title'] + ": " + line['pageid'])
             extract_extract = get_text_from_html(
                 load_goddess(line['pageid'])['extract'])
-            print("Extract of article: {}".format(extract_extract)[:1000])
-            print("..." if len(extract_extract) > 1000 else "")
+            #print("Extract of article: {}".format(extract_extract)[:1000])
+            #print("..." if len(extract_extract) > 1000 else "")
+            #Issues have been had with the previous 2 lines on my [Monte's] Windows8 Box...
+            #I'm also not sure how to print the categories... sad.
 
 
 def get_text_from_html(html_string):
@@ -71,6 +73,20 @@ def get_text_from_html(html_string):
         return html_string  # this is a design choice we may come back to
 
 
+def get_goddess_categories(goddess_id):
+    categories = []
+    titles = []
+    data = json.load(open('data/cultures.json'))
+    for category_key, sub_list in data.items():
+        for entry in sub_list:
+            if int(entry[0]) == int(goddess_id):
+                categories.append(category_key)
+
+    for category in categories:
+        data = json.load(open('data/category_titles/{}.json'.format(category)))
+        titles.append(data[0])
+    return ", ".join(map(str, titles))
+
 def build_index():
     """Build an index stemming extracts.
     Stores image info because these may be needed later for results display."""
@@ -78,6 +94,7 @@ def build_index():
     schema = Schema(
         images=TEXT(stored=True),
         pageid=ID(stored=True),
+        categories=TEXT(stored=False),
         title=ID(stored=True),
         extract=TEXT(analyzer=stemmer, stored=False))
     if not os.path.exists("index_dir"):
@@ -91,7 +108,9 @@ def build_index():
                 title=goddess['title'],
                 extract=get_text_from_html(goddess['extract']),
                 pageid=str(goddess['pageid']),
-                images=str(goddess['images']) if 'images' in goddess else "")
+                categories=get_goddess_categories(goddess['pageid']),
+                images=str(goddess['images']) if 'images' in goddess else ""
+                ),
     return indexer
 
 
