@@ -6,6 +6,7 @@ The corresponding output of `pip freeze`:
     idna==2.6
     requests==2.18.4
     urllib3==1.22
+    Whoosh==2.7.4
     yapf==0.17.0
 Except obviously you don't need to yapf it... 
 ==SETUP==
@@ -25,3 +26,7 @@ can search through the index. The user will be prompted for a searchterm
 and have the total number of results that match the term returned.
 Of those matched, the top 10 goddesses, their ID, and <90 characters of their
 article extract will be printed.
+Running from the project root a la:
+    python3 <path to indexer.py>
+is necessary in order for the index_dir to be created. After the first run, you
+may want to comment/uncomment to not build the index multiple times.
