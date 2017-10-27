@@ -81,6 +81,11 @@ def get_goddess_categories(goddess_id):
         for entry in sub_list:
             if int(entry[0]) == int(goddess_id):
                 categories.append(category_key)
+    data = json.load(open('data/associations.json'))
+    for category_key, sub_list in data.items():
+        for entry in sub_list:
+            if int(entry[0]) == int(goddess_id):
+                categories.append(category_key)
 
     for category in categories:
         data = json.load(open('data/category_titles/{}.json'.format(category)))
