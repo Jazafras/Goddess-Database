@@ -37,6 +37,29 @@ def load_goddess(goddess_id):
     with open(os.path.join("data", goddess_id + ".json"), 'r') as fp:
         return json.load(fp)
 
+def return_search(indexer, query_string):
+    """For testing purposes, delet this later."""
+    with indexer.searcher() as searcher:
+        out_str = ""
+        # ideally these parsers would not be created with each search
+        # but we can change that later
+        exact_query = QueryParser(
+            "title", schema=indexer.schema).parse(query_string)
+        all_query = MultifieldParser(
+            ["title", "extract", "categories"], schema=indexer.schema).parse(query_string)
+        results = searcher.search(exact_query)
+        if len(results) > 0:
+            out_str += "Query found exact title result:"
+        else:
+            results = searcher.search(all_query)
+            out_str += "Length of results: " + str(len(results))
+        for line in results:  # just the first 10
+            out_str += (line['title'] + ": " + line['pageid'] + ": " + line['categories'])
+            extract_extract = get_text_from_html(
+                load_goddess(line['pageid'])['extract'])
+            out_str += ("Extract of article: {}".format(extract_extract)[:1000])
+            out_str += ("..." if len(extract_extract) > 1000 else "")
+    return out_str
 
 def search(indexer, query_string):
     """Search for query string in title and extract.
