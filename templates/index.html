@@ -8,6 +8,14 @@
       <input type="text" name="query"></input>
       <input type="submit" value="SEARCH"></input>
     </form>
-    <p>{{ gs }}</p>
+    <table>
+      {% for goddess in gs%}
+      <tr>
+        <td>{{ goddess.title }}</td>
+        <td>{{ goddess.pageid }}</td>
+        <td>{{ goddess.categories }}</td>
+      </tr>
+      {% endfor %}
+    </table>
   </body>
 </html>

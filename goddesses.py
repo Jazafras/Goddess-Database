@@ -5,20 +5,20 @@ from flask import Flask, render_template, request, redirect
 import indexer
 
 app = Flask(__name__) # create app instance
-goddess_string = ""
+goddesses = []
 
 @app.route("/")
 def index():
-  global goddess_string
+  global goddesses
   return render_template('index.html',
-                          gs=goddess_string)
+                          gs=goddesses)
 
 @app.route('/search', methods = ['POST'])
 def search():
-  global goddess_string
+  global goddesses
   query = request.form['query']
   ix = whoosh.index.open_dir("index_dir")
-  goddess_string = indexer.return_search(ix, query)
+  goddesses = indexer.return_search(ix, query)
   return redirect('/')
 
 if __name__ == "__main__":
