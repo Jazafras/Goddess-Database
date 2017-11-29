@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css?family=Josefin+Slab');
+
 body {
     //background-image: url("images/bg2.jpg");
     //background-repeat: no-repeat;
@@ -57,6 +59,21 @@ div.header {
   margin: 20px auto;
   text-align: center; 
 }
+
+.table-hover{
+	width: 80%;
+}
+
+.thead-inverse{
+	font-family: Josefin Slab;
+	color: white;
+	font-size: 1rem;
+	font-weight: 400;
+	line-height: 1.5;
+	background-color: #212529;
+	padding: 0px
+}
+
 tr {
   font-size: 1.1em;
   text-align: center; 
