@@ -1,22 +1,40 @@
 <html>
-  <link rel="stylesheet" type="text/css" href="../static/style.css">
-  <head>
+ <link rel="stylesheet" type="text/css" href="../static/style.css">
+ <head>
     <title>Goddesses</title>
-  </head>
-  <body>
-    <h1>Beautiful webpage</h1>
-    <form action="/search" method="post">
-      <input type="text" name="query"></input>
-      <input type="submit" value="SEARCH"></input>
+</head>
+<body>
+  <div id="container">
+    <h1>Goddesses -- A CS483 Project</h1>
+    <form id="search-form" action="/search" method="post">
+      <input id="search-text" type="text" name="query"></input>
+      <input id="search-button" type="submit" value="SEARCH"></input>
     </form>
-    <table>
-      {% for goddess in gs%}
-      <tr>
-        <td>{{ goddess.title }}</td>
-        <td>{{ goddess.pageid }}</td>
-        <td>{{ goddess.categories }}</td>
-      </tr>
-      {% endfor %}
+    <table id="search-results" class="table table-hover">
+      <thead class="thead-inverse">
+        <tr>
+          <th>#</th>
+          <th>Goddess</th>
+          <th>Categories</th>
+          <th>Picture</th>
+        </tr>
+      </thead>
+      <tbody>
+      {% if gs is defined and gs != [] %}
+        {% set counter = 1 %}
+        {% for goddess in gs %}
+        <tr><a href="#" class="goddess-page-link">
+          <td>{{ counter }}</td> {% set counter = counter + 1 %}
+          <td>{{ goddess.title }}</td>
+          <td>{{ goddess.categories }}</td>
+          <td>NO PICTURE</td>
+        </tr>
+        {% endfor %}
+      {% else %}
+        <td>EMPTY</td>
+      {% endif %}
+      </tbody>
     </table>
-  </body>
+  </div>
+</body>
 </html>
