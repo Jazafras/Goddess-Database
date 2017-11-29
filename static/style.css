@@ -1,1 +1,10 @@
-/*no style*/
+h1 {
+    background: #b3bcc3;
+    color: #fffbff;
+    font-weight: bold;
+    margin: 0 auto;
+        margin-top: 0px;
+    margin-top: 60px;
+    width: 950px;
+    line-height: 35px;
+}
