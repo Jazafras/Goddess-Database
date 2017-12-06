@@ -76,5 +76,12 @@ div.header {
 
 tr {
   font-size: 1.1em;
-  text-align: center; 
+  text-align: center;
+  width: 80%;
 }
+
+//Links
+a:hover {
+  color: green;
+  border-bottom: 1px solid red;
+} 

@@ -10,17 +10,22 @@ goddesses = []
 
 @app.route("/")
 def index():
-    global goddesses
-    return render_template('index.html', gs=goddesses)
+    #global goddesses
+    return render_template('index.html')
+
+@app.route("/home-page/")
+def home():
+    return redirect('/')
 
 
-@app.route('/search', methods=['POST'])
+@app.route('/search/', methods=['GET', 'POST'])
 def search():
     global goddesses
-    query = request.form['query']
+    query = request.form['query'] 
     ix = whoosh.index.open_dir("index_dir")
     goddesses = indexer.return_search(ix, query)
-    return redirect('/')
+    #return redirect('/')
+    return render_template('results.html', query=query, gs=goddesses)
 
 
 if __name__ == "__main__":

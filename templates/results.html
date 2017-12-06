@@ -18,11 +18,36 @@
 	</div>
 	<div class="content">
 		<div style="margin:0px;padding-top:190px;height:100%">
-			<form id="search-form" action="/search/" method="post">
+			<form id="search-form" action="{{ url_for('search') }}" method="get">
 			  <input id="search-text" type="text" name="query"></input>
 			  <input id="search-button" type="submit" value="Search"></input>
 			</form>
-			
+			<table id="search-results" class="table-hover">
+			  <thead class="thead-inverse">
+				<tr>
+				  <th>#</th>
+				  <th>Goddess</th>
+				  <th>Categories</th>
+				  <th>Picture</th>
+				</tr>
+			  </thead>
+			  <tbody>
+			  {% if gs is defined and gs != [] %}
+				{% set counter = 1 %}
+				{% for goddess in gs %}
+				<tr><a href="#" class="goddess-page-link">
+				  <!--Counter only counts up to one?-->
+				  <td>{{ counter }}</td> {% set counter = counter + 1 %}
+				  <td><a href="/goddess/">{{ goddess.title }}</a></td>
+				  <td>{{ goddess.categories }}</td>
+				  <td><img src="" alt="NO PICTURE"></td>
+				</tr>
+				{% endfor %}
+			  {% else %}
+				<td>EMPTY</td>
+			  {% endif %}
+			  </tbody>
+			</table>
 		</div>
 	</div>
   </div>
