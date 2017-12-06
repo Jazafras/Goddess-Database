@@ -1,0 +1,80 @@
+@import url('https://fonts.googleapis.com/css?family=Josefin+Slab');
+
+body {
+    //background-image: url("images/bg2.jpg");
+    //background-repeat: no-repeat;
+    //background-position: center top;
+    background-color: #5e5e69;
+    background-attachment: fixed;
+    margin: 0px;
+}
+
+div.banner {
+    width: 100%;
+    height: 65px;
+    background-color: #000;
+    position: fixed;
+}
+
+div.content {
+    background-attachment: fixed;
+    border: 0px solid blue;
+    width: 70%;
+    background-color: #b3bcc3;
+    display: inline-block;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.10);
+}
+
+div.header {
+    width: 100%;
+    height: 160px;
+    background-color: #290b2b;
+    border-bottom: 0px solid #000;
+    position: fixed;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 1.00);
+}
+
+//Search bar
+#search-form {
+  padding-bottom: 20px;
+}
+#search-text {
+  width: 40%;
+  border-radius: 4px;
+}
+#search-button {
+  margin-left: 15px;
+  padding-left: 10px;
+  padding-right: 10px;
+  border-radius: 4px;
+  font-family: Georgia;
+  color: white;
+  background-color: #333;
+  border: 2px solid #333;
+}
+
+//Table
+#search-results {
+  width: 80%;
+  margin: 20px auto;
+  text-align: center; 
+}
+
+.table-hover{
+	width: 80%;
+}
+
+.thead-inverse{
+	font-family: Josefin Slab;
+	color: white;
+	font-size: 1rem;
+	font-weight: 400;
+	line-height: 1.5;
+	background-color: #212529;
+	padding: 0px
+}
+
+tr {
+  font-size: 1.1em;
+  text-align: center; 
+}
