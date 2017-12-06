@@ -7,22 +7,23 @@ import indexer
 app = Flask(__name__)  # create app instance
 goddesses = []
 
-
 @app.route("/")
 def index():
-    #global goddesses
+    global goddesses
     return render_template('index.html')
 
-@app.route("/home-page/")
+@app.route("/home/")
 def home():
     return redirect('/')
-
 
 @app.route('/search/', methods=['GET', 'POST'])
 def search():
     global goddesses
-    query = request.form['query']
-    #query = data.get['query']
+
+    if request.method == 'POST':
+        query = request.form['query']
+    else:
+        query = request.args
     ix = whoosh.index.open_dir("index_dir")
     goddesses = indexer.return_search(ix, query)
     #return redirect('/')
