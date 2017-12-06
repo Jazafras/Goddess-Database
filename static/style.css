@@ -54,14 +54,17 @@ div.header {
 }
 
 //Table
+
 #search-results {
-  width: 80%;
+  width: 90%;
   margin: 20px auto;
   text-align: center; 
+  border-collapse: collapse;
 }
 
 .table-hover{
-	width: 80%;
+	width: 90%;
+	border-collapse: collapse;
 }
 
 .thead-inverse{
@@ -77,11 +80,12 @@ div.header {
 tr {
   font-size: 1.1em;
   text-align: center;
-  width: 80%;
 }
 
-//Links
-a:hover {
-  color: green;
-  border-bottom: 1px solid red;
-} 
+tbody tr:nth-child(even){
+	background-color: #a1a8ae;
+}
+
+tbody tr:hover{
+	background-color: #868d92;
+}

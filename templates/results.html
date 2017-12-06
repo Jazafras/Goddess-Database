@@ -1,7 +1,7 @@
 <html>
  <link rel="stylesheet" type="text/css" href="../static/style.css">
  <head>
-    <title>Goddesses</title>
+    <title>Goddess Search Engine</title>
 </head>
 <body>
   <div id="container" align="center">
@@ -18,7 +18,7 @@
 	</div>
 	<div class="content">
 		<div style="margin:0px;padding-top:190px;height:100%">
-			<form id="search-form" action="{{ url_for('search') }}" method="get">
+			<form id="search-form" action="{{ url_for('search') }}" method="post">
 			  <input id="search-text" type="text" name="query"></input>
 			  <input id="search-button" type="submit" value="Search"></input>
 			</form>
@@ -37,10 +37,10 @@
 				{% for goddess in gs %}
 				<tr><a href="#" class="goddess-page-link">
 				  <!--Counter only counts up to one?-->
-				  <td>{{ counter }}</td> {% set counter = counter + 1 %}
-				  <td><a href="/goddess/">{{ goddess.title }}</a></td>
+				  <td>{{ counter }}</td> {% set counter = counter+1 %}
+				  <td><a href="/goddess/" style="color: #72436d; text-decoration: none; font-weight: bold;">{{ goddess.title }}</a></td>
 				  <td>{{ goddess.categories }}</td>
-				  <td><img src="" alt="NO PICTURE"></td>
+				  <td><img src="{{ goddess.images }}" alt="N/A"></td>
 				</tr>
 				{% endfor %}
 			  {% else %}

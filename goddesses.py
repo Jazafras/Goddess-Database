@@ -21,12 +21,16 @@ def home():
 @app.route('/search/', methods=['GET', 'POST'])
 def search():
     global goddesses
-    query = request.form['query'] 
+    query = request.form['query']
+    #query = data.get['query']
     ix = whoosh.index.open_dir("index_dir")
     goddesses = indexer.return_search(ix, query)
     #return redirect('/')
     return render_template('results.html', query=query, gs=goddesses)
 
+@app.route("/goddess/")
+def goddess():
+    return render_template('goddess_page.html')
 
 if __name__ == "__main__":
     app.run(debug=True)
