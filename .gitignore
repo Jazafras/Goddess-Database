@@ -4,3 +4,5 @@ index_dir/*
 .*.swp
 .*.swo
 *.pyc
+*.ipynb
+.ipynb*
