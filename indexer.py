@@ -37,6 +37,7 @@ def load_goddess(goddess_id):
     with open(os.path.join("data", goddess_id + ".json"), 'r') as fp:
         return json.load(fp)
 
+
 def return_search(indexer, query_string):
     """For testing purposes, delet this later."""
     with indexer.searcher() as searcher:
@@ -46,7 +47,8 @@ def return_search(indexer, query_string):
         exact_query = QueryParser(
             "title", schema=indexer.schema).parse(query_string)
         all_query = MultifieldParser(
-            ["title", "extract", "categories"], schema=indexer.schema).parse(query_string)
+            ["title", "extract", "categories"],
+            schema=indexer.schema).parse(query_string)
         results = searcher.search(exact_query)
         if len(results) > 0:
             pass
@@ -63,6 +65,7 @@ def return_search(indexer, query_string):
             goddesses.append(goddess)
     return goddesses
 
+
 def search(indexer, query_string):
     """Search for query string in title and extract.
     If an exact title match is found, prefers this single result."""
@@ -72,7 +75,8 @@ def search(indexer, query_string):
         exact_query = QueryParser(
             "title", schema=indexer.schema).parse(query_string)
         all_query = MultifieldParser(
-            ["title", "extract", "categories"], schema=indexer.schema).parse(query_string)
+            ["title", "extract", "categories"],
+            schema=indexer.schema).parse(query_string)
         results = searcher.search(exact_query)
         if len(results) > 0:
             print("Query found exact title result:")
@@ -80,7 +84,8 @@ def search(indexer, query_string):
             results = searcher.search(all_query)
             print("Length of results: " + str(len(results)))
         for line in results:  # just the first 10
-            print(line['title'] + ": " + line['pageid'] + ": " + line['categories'])
+            print(line['title'] + ": " + line['pageid'] + ": " +
+                  line['categories'])
             extract_extract = get_text_from_html(
                 load_goddess(line['pageid'])['extract'])
             print("Extract of article: {}".format(extract_extract)[:1000])
@@ -104,6 +109,7 @@ def get_text_from_html(html_string):
             "Error encountered trying to parse \"{}\"".format(html_string))
         return html_string  # this is a design choice we may come back to
 
+
 def build_index():
     """Build an index stemming extracts.
     Stores image info because these may be needed later for results display."""
@@ -126,9 +132,8 @@ def build_index():
                 extract=get_text_from_html(goddess['extract']),
                 pageid=str(goddess['pageid']),
                 #Categories was a list, make it a string to search it
-                categories=", ".join(map(str, goddess['categories'])), 
-                images=str(goddess['images']) if 'images' in goddess else ""
-                ),
+                categories=", ".join(map(str, goddess['categories'])),
+                images=str(goddess['images']) if 'images' in goddess else ""),
     return indexer
 
 
