@@ -9,6 +9,20 @@ body {
     margin: 0px;
 }
 
+.button {
+    background-color: #4CAF50;
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+	position: left;
+}
+
 h3 {
   font-size: 1.4em;
   margin-bottom: 7px;
@@ -59,7 +73,7 @@ div.header {
   border: 2px solid #333;
 }
 
-//Table
+// Results Table
 
 #search-results {
   width: 90%;
@@ -88,12 +102,33 @@ tr {
   text-align: center;
 }
 
-tbody tr:nth-child(even){
-	background-color: #a1a8ae;
+//#search-results tbody tr:nth-child(even){
+//	background-color: #a1a8ae;
+//}
+
+#search-results tbody tr:hover{
+	background-color: #868d92;
 }
 
-tbody tr:hover{
-	background-color: #868d92;
+//Suggestions Table
+#suggestions{
+		margin-bottom: 5px;
+}
+
+#suggestions-table {
+	margin: auto;
+}
+
+.suggestion-tab{
+	width: 300px;
+}
+
+.suggestion-genre-pic{
+	width: 30px;
+}
+
+.suggestion-pic {
+    width: 90px;
 }
 
 //Images
@@ -118,4 +153,19 @@ tbody tr:hover{
   display: inline;
   width: 50px;
   height: 50px;
+}
+
+#text {
+	padding-right: 60px;
+}
+
+#profile-summary {
+    text-align: center;
+    float: left;
+    margin: 4px 10px 10px 25px;
+    margin-right: 10px;
+    margin-right: 50px;
+    //border: 1px solid #000;
+    padding: 5px;
+	background-color: #b3bcc3;
 }
