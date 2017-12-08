@@ -3,7 +3,7 @@ import json
 
 from bs4 import BeautifulSoup as soup
 import whoosh.index
-from flask import Flask, render_template, request, redirect
+from flask import Flask, render_template, request, redirect, session
 
 import indexer
 
@@ -17,7 +17,7 @@ def index():
 
 @app.route("/home/")
 def home():
-    return redirect('/')
+    return redirect('/search/')
 
 @app.route('/search/', methods=['GET', 'POST'])
 def search():
@@ -25,8 +25,9 @@ def search():
 
     if request.method == 'POST':
         query = request.form['query']
+        session['query'] = query
     else:
-        query = request.args
+        query = session['query']
     ix = whoosh.index.open_dir("index_dir")
     goddesses = indexer.return_search(ix, query)
     return render_template('results.html', query=query, gs=goddesses)
@@ -47,4 +48,5 @@ def goddess():
     return render_template('goddess_page.html', goddess=goddess)
 
 if __name__ == "__main__":
+    app.secret_key = "ASDFASj~~8888???,,,/"
     app.run(debug=True)
