@@ -8,6 +8,7 @@ HW 3
 import os
 import sys
 import json
+import yaml
 import whoosh
 import logging
 from whoosh.index import create_in, open_dir
@@ -47,7 +48,7 @@ def return_search(indexer, query_string):
         exact_query = QueryParser(
             "title", schema=indexer.schema).parse(query_string)
         all_query = MultifieldParser(
-            ["title", "extract", "categories"],
+            ["title", "extract", "categories", "images"],
             schema=indexer.schema).parse(query_string)
         results = searcher.search(exact_query)
         if len(results) > 0:
@@ -59,6 +60,19 @@ def return_search(indexer, query_string):
             goddess['title'] = line['title']
             goddess['pageid'] = line['pageid']
             goddess['categories'] = line['categories']
+            i = str(line["images"])
+            goddess['images'] = yaml.load(i)
+            if(goddess['images']):
+                for i in range(len(goddess['images'])):
+                    print(goddess['images'][i])
+                    title = goddess['images'][i]['title']
+                    #Remove "File:"
+                    if(title[0:5].lower() == "file:"):
+                        title = title[5:]
+                    if(title[-4:] == ".svg"):
+                        title = title + ".png"
+                    title = title.replace(" ", "%20")
+                    goddess['images'][i]['title'] = title
             extract_extract = get_text_from_html(
                 load_goddess(line['pageid'])['extract'])
             goddess['extract'] = extract_extract

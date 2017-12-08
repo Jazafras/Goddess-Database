@@ -38,7 +38,11 @@
 				  <td>{{ loop.index }}</td>
 				  <td><a href="/goddess?pageid={{goddess.pageid}}" style="color: #3f1642; text-decoration: none; font-weight: bold;">{{ goddess.title }}</a></td>
 				  <td>{{ goddess.categories }}</td>
-				  <td><img src="{{ goddess.images }}" alt="N/A"></td>
+				  {% if goddess['images'] != None %}
+				  	<td><img src="../static/goddess_images/images/{{ goddess.images[0].title }}" alt="N/A" height="100" width="100"></td>
+				  {% else %}
+				  	<td><img src="../static/goddess_images/images/default_goddess.jpg" alt="N/A" height="100" width="100"></td>
+				  {% endif %}
 				</tr>
 				{% endfor %}
 			  {% else %}

@@ -7,3 +7,4 @@ index_dir/*
 *.ipynb
 .ipynb*
 sub_scraped/*
+static/goddess_images
