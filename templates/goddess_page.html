@@ -22,7 +22,7 @@
 		</div>
 		<br><br>
 		<div id="profile-summary">
-                        {% if goddess['images'] != None %}
+                        {% if 'images' in goddess %}
 			  <img id="profile-picture" src="../static/goddess_images/images/{{ goddess.images[0].title[5:].replace(' ', '%20').replace(".svg", ".svg.png") }}" alt="Image" height="300px" width="200px"/>
                         {% else %}
 			  <img id="profile-picture" src="../static/cat_pics/{{ goddess.categories[0].replace(' ', '%20')}}.jpg" alt="Image" height="300px" width="200px"/>
@@ -45,39 +45,27 @@
 		<h3 class="relatedGoddesses">Similar Goddesses</h3>
 		<table id="suggestions-table">
 		  <tr>
+                     {% for i in range(3) %}
 			<td>
 				<table class="suggestion-tab">
 					<tr>
-						<td>(Name)</td>
-						<td rowspan="2"><img class="suggestion-pic" src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/22/Mattei_Athena_Louvre_Ma530_n2.jpg/800px-Mattei_Athena_Louvre_Ma530_n2.jpg"</td>
+						<td><a href="/goddess?pageid={{related[i].pageid}}" style="color: #3f1642; text-decoration: none; font-weight: bold;">{{related[i].title}}</td>
+                                                <td rowspan="2">
+                                                  {% if goddess['images'] != None %}
+			                            <img class="suggestion-pic" src="../static/goddess_images/images/{{ related[i].images[0].title[5:].replace(' ', '%20').replace(".svg", ".svg.png") }}" alt="Image"/>
+                                                  {% else %}
+			                            <img class="suggestion-pic" src="../static/cat_pics/{{ related[i].categories[0].replace(' ', '%20')}}.jpg" alt="Image"/>
+                                                  {% endif %}</td>
 					</tr>
-					<!-- <tr> -->
-						<td>(Associations)</td>
-					</tr>
-				</table>
-			</td>
-			<td>
-				<table class="suggestion-tab">
-					<tr>
-						<td>(Name)</td>
-						<td rowspan="2">(IMAGE)</td>
-					</tr>
-					<tr>
-						<td>(Associations)</td>
+				          <td align="left">{% for cat in related[i]["categories"] %}
+                                            {% if loop.index <= 3 %}
+					      <li><img src="../static/cat_pics/{{cat.replace(' ', '%20')}}.jpg" height="50px" width="50px"> {{ cat }}</li>
+                                            {% endif %}
+				          {% endfor %}</td>
 					</tr>
 				</table>
 			</td>
-			<td>
-				 <table class="suggestion-tab">
-					<tr>
-						<td>(Name)</td>
-						<td rowspan="2"><img class="suggestion-pic" src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/22/Mattei_Athena_Louvre_Ma530_n2.jpg/800px-Mattei_Athena_Louvre_Ma530_n2.jpg"</td>
-					</tr>
-					<tr>
-						<td>(Associations)</td>
-					</tr>
-				  </table>
-			</td>
+                     {% endfor %}
 		  </tr>
 		</table>
 	</div>

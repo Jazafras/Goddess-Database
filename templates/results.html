@@ -22,6 +22,7 @@
 			  <input id="search-text" type="text" name="query"></input>
 			  <input id="search-button" type="submit" value="Search"></input>
 			</form>
+			{% if gs is defined and gs != [] %}
 			<table id="search-results" class="table-hover">
 			  <thead class="thead-inverse">
 				<tr>
@@ -32,7 +33,6 @@
 				</tr>
 			  </thead>
 			  <tbody>
-			  {% if gs is defined and gs != [] %}
 				{% for goddess in gs %}
 				<tr><a href="#" class="goddess-page-link">
 				  <td>{{ loop.index }}</td>
@@ -51,11 +51,11 @@
 				  {% endif %}
 				</tr>
 				{% endfor %}
-			  {% else %}
-				<td>EMPTY</td>
-			  {% endif %}
 			  </tbody>
 			</table>
+			{% else %}
+			  <h3 style="text-align: center; padding-top: 30px; padding-bottom: 200px;">No results found for your query: {{ query }}</h3>
+			{% endif %}
 		</div>
 	</div>
   </div>
