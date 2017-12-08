@@ -21,7 +21,9 @@
 		<div id="profile-summary">
 			<img id="profile-picture" src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/80/Diane_de_Versailles_Leochares.jpg/220px-Diane_de_Versailles_Leochares.jpg" alt="Image"/>
 			<p class="category-text">
-				(Category Associations)
+				{% for category in goddess["categories"] %}
+					<p>{{ category }}</p>
+				{% endfor %}
 			</p>
 		</div>
 	
