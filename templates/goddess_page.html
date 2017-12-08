@@ -24,20 +24,21 @@
 		<div id="profile-summary">
 			<img id="profile-picture" src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/80/Diane_de_Versailles_Leochares.jpg/220px-Diane_de_Versailles_Leochares.jpg" alt="Image"/>
 			<p class="category-text">
+				<b style="font-family: Josefin Slab;">Categories</b><hr>
 				{% for category in goddess["categories"] %}
-					<p>{{ category }}</p>
+					<br>{{ category }}
 				{% endfor %}
 			</p>
 		</div>
 	
 		<div id="text">
-			<h1 style="padding-right: 250px;">{{ goddess["title"] }}</h1>
+			<h1 class="goddessName"><b>{{ goddess["title"] }}</b></h1>
 			<hr class="separator"><p>
 				{{ goddess["extract"]|safe}}
 			</p>
 	  </div>
 	  <div id="suggestions">
-		<h3>Related Goddesses</h3>
+		<h3 class="relatedGoddesses">Similar Goddesses</h3>
 		<table id="suggestions-table">
 		  <tr>
 			<td>

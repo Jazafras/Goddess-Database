@@ -38,6 +38,7 @@ div.header {
     background-color: #290b2b;
     border-bottom: 0px solid #000;
     position: fixed;
+	z-index: 1;
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 1.00);
 }
 
@@ -97,6 +98,10 @@ tr {
 	background-color: #868d92;
 }
 
+#suggestions-table tbody td:hover{
+	background-color: #868d92;
+}
+
 //Suggestions Table
 #suggestions{
 	text-align: center;
@@ -111,6 +116,9 @@ tr {
 
 #suggestions-table {
 	margin: auto;
+	background-color: #b3bcc3;
+	width: 100%;
+	padding: 0px 80px 0px 80px;
 }
 
 .suggestion-tab{
@@ -122,7 +130,7 @@ tr {
 }
 
 .suggestion-pic {
-    width: 90px;
+    max-width: 100px;
 }
 
 //Images
@@ -152,6 +160,27 @@ tr {
 #text {
 	padding-right: 50px;
 	padding-left: 50px;
+	text-align: left;
+}
+
+.goddessName{
+	padding-right: 250px;
+	text-align: center;
+	color: white;
+	font-family: Josefin Slab;
+}
+
+.relatedGoddesses{
+	width: 100%;
+	background: #1D1919;
+	color: white;
+	padding: 10px 0px 10px 0px;
+	font-family: Josefin Slab;
+	margin-bottom: 0px;
+}
+
+#profile-picture {
+	max-width: 220px;
 }
 
 #profile-summary {
@@ -167,9 +196,9 @@ tr {
 
 .button {
     background: -moz-linear-gradient(left, rgba(29,25,25,1) 0%, rgba(29,25,25,1) 68%, rgba(29,25,25,0) 100%); /* FF3.6-15 */
-background: -webkit-linear-gradient(left, rgba(29,25,25,1) 0%,rgba(29,25,25,1) 68%,rgba(29,25,25,0) 100%); /* Chrome10-25,Safari5.1-6 */
-background: linear-gradient(to right, rgba(29,25,25,1) 0%,rgba(29,25,25,1) 68%,rgba(29,25,25,0) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#1d1919', endColorstr='#001d1919',GradientType=1 ); /* IE6-9 */
+	background: -webkit-linear-gradient(left, rgba(29,25,25,1) 0%,rgba(29,25,25,1) 68%,rgba(29,25,25,0) 100%); /* Chrome10-25,Safari5.1-6 */
+	background: linear-gradient(to right, rgba(29,25,25,1) 0%,rgba(29,25,25,1) 68%,rgba(29,25,25,0) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#1d1919', endColorstr='#001d1919',GradientType=1 ); /* IE6-9 */
 	//float: left;
     border: none;
     color: white;
@@ -183,5 +212,5 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#1d1919', end
 .return{
 	position: absolute;
     left: 0px;
-	z-index: -1;
+	z-index: 0;
 }
