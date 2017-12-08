@@ -1,0 +1,64 @@
+<html>
+<link rel="stylesheet" type="text/css" href="../static/style.css">
+
+<head>
+  <title>Goddess Search Engine</title>
+</head>
+<body>
+  <div id="container" align="center">
+    <div class="header">
+      <div class="banner">
+        <a href="/home/"><img src="https://i.imgur.com/LRhplKy.png" alt=""></a>
+      </div>
+      <p class="title" style="font-size:54px;margin:0px;text-align:center;width:735px;padding-top:69px;">
+        <a href="/home/"><img src="https://i.imgur.com/QW9NpLK.png" alt=""></a>
+      </p><p>
+        <p style="margin-top:-15px; font-size:16px;">
+        <font face="credit" color="#917adf">By Jasmine Emerson, Maya Hess, and Monte Roden</font>
+      </p>
+     </div>
+     <div class="content">
+       <div style="margin:0px;padding-top:190px;">
+         <form id="search-form" action="{{ url_for('search') }}" method="post">
+           <input id="search-text" type="text" name="query"></input>
+           <input id="search-button" type="submit" value="Search"></input>
+         </form>
+       {% if gs is defined and gs != [] %}
+         <table id="search-results" class="table-hover">
+           <thead class="thead-inverse">
+             <tr>
+             <th>#</th>
+             <th>Goddess</th>
+             <th>Categories</th>
+             <th>Picture</th>
+             </tr>
+           </thead>
+           <tbody>
+           {% for goddess in gs %}
+             <tr><a href="#" class="goddess-page-link">
+               <td>{{ loop.index }}</td>
+               <td><a href="/goddess?pageid={{goddess.pageid}}" style="color: #3f1642; text-decoration: none; font-weight: bold;">{{ goddess.title }}</a></td>
+               <td align="left">{% for cat in goddess.categories %}
+               {% if loop.index <= 3 %}
+                <ul>
+                  <li><img src="../static/cat_pics/{{cat.lstrip().replace(' ','%20') }}.jpg" height="50px" width="50px"> {{cat}}</li>
+                </ul>
+              {% endif %}
+            {% endfor %}</td>
+            {% if goddess['images'] != None %}
+              <td><img src="../static/goddess_images/images/{{ goddess.images[0].title }}" alt="" width="200"></td>
+            {% else %}
+              <td><img src="../static/cat_pics/{{ goddess.categories[0].replace(" ", "%20")}}.jpg" alt="" width="200"></td>
+            {% endif %}
+            </tr>
+          {% endfor %}
+          </tbody>
+      </table>
+      {% else %}
+        <h3 style="text-align: center; padding-top: 30px; padding-bottom: 200px;">No results found for your query: {{ query }}</h3>
+      {% endif %}
+    </div>
+  </div>
+  </div>
+</body>
+</html>

@@ -8,6 +8,7 @@ HW 3
 import os
 import sys
 import json
+import yaml
 import whoosh
 import logging
 from whoosh.index import create_in, open_dir
@@ -39,7 +40,7 @@ def load_goddess(goddess_id):
 
 
 def return_search(indexer, query_string):
-    """For testing purposes, delet this later."""
+    """Unlike "search()", which prints, this returns a goddess."""
     with indexer.searcher() as searcher:
         goddesses = []
         # ideally these parsers would not be created with each search
@@ -47,7 +48,7 @@ def return_search(indexer, query_string):
         exact_query = QueryParser(
             "title", schema=indexer.schema).parse(query_string)
         all_query = MultifieldParser(
-            ["title", "extract", "categories"],
+            ["title", "extract", "categories", "images"],
             schema=indexer.schema).parse(query_string)
         results = searcher.search(exact_query)
         if len(results) > 0:
@@ -58,7 +59,19 @@ def return_search(indexer, query_string):
             goddess = {}
             goddess['title'] = line['title']
             goddess['pageid'] = line['pageid']
-            goddess['categories'] = line['categories']
+            goddess['categories'] = line['categories'].split(",")
+            i = str(line["images"])
+            goddess['images'] = yaml.load(i)
+            if(goddess['images']):
+                for i in range(len(goddess['images'])):
+                    title = goddess['images'][i]['title']
+                    #Remove "File:"
+                    if(title[0:5].lower() == "file:"):
+                        title = title[5:]
+                    if(title[-4:] == ".svg"):
+                        title = title + ".png"
+                    title = title.replace(" ", "%20")
+                    goddess['images'][i]['title'] = title
             extract_extract = get_text_from_html(
                 load_goddess(line['pageid'])['extract'])
             goddess['extract'] = extract_extract
@@ -90,8 +103,6 @@ def search(indexer, query_string):
                 load_goddess(line['pageid'])['extract'])
             print("Extract of article: {}".format(extract_extract)[:1000])
             print("..." if len(extract_extract) > 1000 else "")
-            #Issues have been had with the previous 2 lines on my [Monte's] Windows8 Box...
-            #I'm also not sure how to print the categories... sad.
 
 
 def get_text_from_html(html_string):

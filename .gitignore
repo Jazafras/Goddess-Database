@@ -6,3 +6,5 @@ index_dir/*
 *.pyc
 *.ipynb
 .ipynb*
+sub_scraped/*
+static/goddess_images
