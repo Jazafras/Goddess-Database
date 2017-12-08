@@ -17,7 +17,7 @@ def index():
 
 @app.route("/home/")
 def home():
-    return redirect('/search/')
+    return redirect('/')
 
 @app.route('/search/', methods=['GET', 'POST'])
 def search():

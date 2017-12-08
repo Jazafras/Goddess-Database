@@ -166,6 +166,15 @@ tr {
 	text-align: left;
 }
 
+#text h3 {
+	//color: white;
+	font-family: Josefin Slab;
+	font-style: italic;
+	font-style: bold;
+	//text-decoration: underline;
+	font-weight: 1000;
+}
+
 .goddessName{
 	padding-right: 250px;
 	text-align: center;
