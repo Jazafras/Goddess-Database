@@ -17,10 +17,14 @@
 		</p>
 	</div>
 	<div style="margin:0px;padding-top:190px;height:100%">
-		<a href="/home/" class="button">Return</a><p>
+		<div class="return">
+			<a href="/home/" class="button">Return</a>
+		</div>
+		<br><br>
 		<div id="profile-summary">
 			<img id="profile-picture" src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/80/Diane_de_Versailles_Leochares.jpg/220px-Diane_de_Versailles_Leochares.jpg" alt="Image"/>
 			<ul class="category-text" style="list-style: none">
+				<b style="font-family: Josefin Slab;">Categories</b><hr>
 				{% for cat in goddess["categories"] %}
 					<li><img src="../static/cat-pics/{{cat.replace(' ', '%20')}}.jpg" height="50px" width="50px"> {{ cat }}</li>
 				{% endfor %}
@@ -28,46 +32,47 @@
 		</div>
 	
 		<div id="text">
-			<h1>{{ goddess["title"] }}</h1>
+			<h1 class="goddessName"><b>{{ goddess["title"] }}</b></h1>
 			<hr class="separator"><p>
 				{{ goddess["extract"]|safe}}
 			</p>
 	  </div>
 	  <div id="suggestions">
-		<h3>You may also like:</h3>
+		<h3 class="relatedGoddesses">Similar Goddesses</h3>
 		<table id="suggestions-table">
 		  <tr>
 			<td>
-			  <table class="suggestion-tab">
-				<tr>
-				  <td>(Associations)</td>
-				  <td rowspan="4"><img class="suggestion-pic" src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/22/Mattei_Athena_Louvre_Ma530_n2.jpg/800px-Mattei_Athena_Louvre_Ma530_n2.jpg"</td>
-				</tr>
-			  </table>
+				<table class="suggestion-tab">
+					<tr>
+						<td>(Name)</td>
+						<td rowspan="2"><img class="suggestion-pic" src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/22/Mattei_Athena_Louvre_Ma530_n2.jpg/800px-Mattei_Athena_Louvre_Ma530_n2.jpg"</td>
+					</tr>
+					<!-- <tr> -->
+						<td>(Associations)</td>
+					</tr>
+				</table>
 			</td>
 			<td>
-			  <table class="suggestion-tab">
-				<tr>
-				  <td>IMG</td>
-				  <td rowspan="4">suggested_pib</td>
-				</tr>
-				<tr>
-				  <td>IMG</td>
-				</tr>
-				<tr>
-				  <td>IMG</td>
-				</tr>
-				<tr>
-				  <td>IMG</td>
-				</tr>
-			  </table>
+				<table class="suggestion-tab">
+					<tr>
+						<td>(Name)</td>
+						<td rowspan="2">(IMAGE)</td>
+					</tr>
+					<tr>
+						<td>(Associations)</td>
+					</tr>
+				</table>
 			</td>
 			<td>
-			  <table class="suggestion-tab">
-				<tr>
-				  <td>(Associations_</td>
-				</tr>
-			  </table>
+				 <table class="suggestion-tab">
+					<tr>
+						<td>(Name)</td>
+						<td rowspan="2"><img class="suggestion-pic" src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/22/Mattei_Athena_Louvre_Ma530_n2.jpg/800px-Mattei_Athena_Louvre_Ma530_n2.jpg"</td>
+					</tr>
+					<tr>
+						<td>(Associations)</td>
+					</tr>
+				  </table>
 			</td>
 		  </tr>
 		</table>
