@@ -1,5 +1,7 @@
 import os
 import json
+
+from bs4 import BeautifulSoup as soup
 import whoosh.index
 from flask import Flask, render_template, request, redirect
 
@@ -32,6 +34,16 @@ def search():
 @app.route("/goddess/", methods=['POST', 'GET'])
 def goddess():
     goddess = json.load(open("data/" + request.args["pageid"] + ".json"))
+
+    # Remove all the h2's and li's.
+    # The h2's are often empty, the li's are just ugly.
+    my_soup = soup(goddess["extract"], "lxml")
+    for tags in my_soup.find_all('h2'):
+        tags.extract()
+    for tags in my_soup.find_all('li'):
+        tags.extract()
+    goddess["extract"] = my_soup
+
     return render_template('goddess_page.html', goddess=goddess)
 
 if __name__ == "__main__":
