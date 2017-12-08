@@ -59,12 +59,11 @@ def return_search(indexer, query_string):
             goddess = {}
             goddess['title'] = line['title']
             goddess['pageid'] = line['pageid']
-            goddess['categories'] = line['categories']
+            goddess['categories'] = line['categories'].split(",")
             i = str(line["images"])
             goddess['images'] = yaml.load(i)
             if(goddess['images']):
                 for i in range(len(goddess['images'])):
-                    print(goddess['images'][i])
                     title = goddess['images'][i]['title']
                     #Remove "File:"
                     if(title[0:5].lower() == "file:"):

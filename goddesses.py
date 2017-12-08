@@ -22,7 +22,6 @@ def home():
 @app.route('/search/', methods=['GET', 'POST'])
 def search():
     global goddesses
-
     if request.method == 'POST':
         query = request.form['query']
         session['query'] = query
@@ -35,7 +34,6 @@ def search():
 @app.route("/goddess/", methods=['POST', 'GET'])
 def goddess():
     goddess = json.load(open("data/" + request.args["pageid"] + ".json"))
-
     # Remove all the h2's and li's.
     # The h2's are often empty, the li's are just ugly.
     my_soup = soup(goddess["extract"], "lxml")
@@ -44,7 +42,6 @@ def goddess():
     for tags in my_soup.find_all('li'):
         tags.extract()
     goddess["extract"] = my_soup
-
     return render_template('goddess_page.html', goddess=goddess)
 
 if __name__ == "__main__":

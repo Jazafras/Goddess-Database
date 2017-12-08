@@ -22,11 +22,15 @@
 		</div>
 		<br><br>
 		<div id="profile-summary">
-			<img id="profile-picture" src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/80/Diane_de_Versailles_Leochares.jpg/220px-Diane_de_Versailles_Leochares.jpg" alt="Image"/>
+                        {% if goddess['images'] != None %}
+			  <img id="profile-picture" src="../static/goddess_images/images/{{ goddess.images[0].title[5:].replace(' ', '%20').replace(".svg", ".svg.png") }}" alt="Image" height="300px" width="200px"/>
+                        {% else %}
+			  <img id="profile-picture" src="../static/cat_pics/{{ goddess.categories[0].replace(' ', '%20')}}.jpg" alt="Image" height="300px" width="200px"/>
+                        {% endif %}
 				<p>
 				<b style="font-family: Josefin Slab;">Categories</b><hr>
 				{% for cat in goddess["categories"] %}
-					<li><img src="../static/cat-pics/{{cat.replace(' ', '%20')}}.jpg" height="50px" width="50px"> {{ cat }}</li>
+					<li><img src="../static/cat_pics/{{cat.replace(' ', '%20')}}.jpg" height="50px" width="50px"> {{ cat }}</li>
 				{% endfor %}
 			
 		</div>

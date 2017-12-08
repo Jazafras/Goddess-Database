@@ -10,13 +10,13 @@ body {
 }
 
 li{
-		list-style-type: none;
+    list-style-type: none;
 }
 
 h3 {
-  font-size: 1.4em;
-  margin-bottom: 7px;
-  margin-top: 5px;
+    font-size: 1.4em;
+    margin-bottom: 7px;
+    margin-top: 5px;
 }
 
 div.banner {
@@ -47,7 +47,7 @@ div.header {
 
 //Search bar
 #search-form {
-  padding-bottom: 20px;
+    padding-bottom: 20px;
 }
 #search-text {
   width: 40%;
