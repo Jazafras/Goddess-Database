@@ -88,14 +88,19 @@ div.header {
 	padding: 0px
 }
 
+.table-hover td{
+	padding-top: 20px;
+padding-bottom: 20px;	
+}
+
 tr {
   font-size: 1.1em;
   text-align: center;
 }
 
-//#search-results tbody tr:nth-child(even){
-//	background-color: #a1a8ae;
-//}
+#search-results tbody tr:nth-child(even){
+	background-color: #a1a8ae;
+}
 
 #search-results tbody tr:hover{
 	background-color: #868d92;

@@ -46,9 +46,9 @@
               {% endif %}
             {% endfor %}</td>
             {% if goddess['images'] != None %}
-              <td><img src="../static/goddess_images/images/{{ goddess.images[0].title }}" alt="N/A" height="100" width="100"></td>
+              <td><img src="../static/goddess_images/images/{{ goddess.images[0].title }}" alt="" width="200"></td>
             {% else %}
-              <td><img src="../static/cat_pics/{{ goddess.categories[0].replace(" ", "%20")}}.jpg" alt="N/A" height="100" width="100"></td>
+              <td><img src="../static/cat_pics/{{ goddess.categories[0].replace(" ", "%20")}}.jpg" alt="" width="200"></td>
             {% endif %}
             </tr>
           {% endfor %}
