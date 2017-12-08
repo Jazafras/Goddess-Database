@@ -34,7 +34,7 @@ def iter_goddess():
 def load_goddess(goddess_id):
     """Use specific goddess ID to load the particular file."""
     logging.debug("Loading {}.json".format(goddess_id))
-    with open(os.path.join("data", goddess_id + ".json"), 'r') as fp:
+    with open(os.path.join("data", str(goddess_id) + ".json"), 'r') as fp:
         return json.load(fp)
 
 
