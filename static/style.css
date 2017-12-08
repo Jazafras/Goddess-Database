@@ -9,19 +9,6 @@ body {
     margin: 0px;
 }
 
-.button {
-    background-color: #4CAF50;
-    border: none;
-    color: white;
-    padding: 15px 32px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-    margin: 4px 2px;
-    cursor: pointer;
-	position: left;
-}
 
 h3 {
   font-size: 1.4em;
@@ -112,7 +99,14 @@ tr {
 
 //Suggestions Table
 #suggestions{
-		margin-bottom: 5px;
+	text-align: center;
+    float: right;
+    margin: 4px 10px 10px 25px;
+    margin-right: 10px;
+    margin-right: 50px;
+    //border: 1px solid #000;
+    padding: 5px;
+	background-color: #b3bcc3;
 }
 
 #suggestions-table {
@@ -156,7 +150,8 @@ tr {
 }
 
 #text {
-	padding-right: 60px;
+	padding-right: 50px;
+	padding-left: 50px;
 }
 
 #profile-summary {
@@ -168,4 +163,25 @@ tr {
     //border: 1px solid #000;
     padding: 5px;
 	background-color: #b3bcc3;
+}
+
+.button {
+    background: -moz-linear-gradient(left, rgba(29,25,25,1) 0%, rgba(29,25,25,1) 68%, rgba(29,25,25,0) 100%); /* FF3.6-15 */
+background: -webkit-linear-gradient(left, rgba(29,25,25,1) 0%,rgba(29,25,25,1) 68%,rgba(29,25,25,0) 100%); /* Chrome10-25,Safari5.1-6 */
+background: linear-gradient(to right, rgba(29,25,25,1) 0%,rgba(29,25,25,1) 68%,rgba(29,25,25,0) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#1d1919', endColorstr='#001d1919',GradientType=1 ); /* IE6-9 */
+	//float: left;
+    border: none;
+    color: white;
+    padding: 9px 42px;
+    text-align: center;
+    text-decoration: none;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.return{
+	position: absolute;
+    left: 0px;
+	z-index: -1;
 }
