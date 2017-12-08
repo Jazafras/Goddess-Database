@@ -20,11 +20,11 @@
 		<a href="/home/" class="button">Return</a><p>
 		<div id="profile-summary">
 			<img id="profile-picture" src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/80/Diane_de_Versailles_Leochares.jpg/220px-Diane_de_Versailles_Leochares.jpg" alt="Image"/>
-			<p class="category-text">
-				{% for category in goddess["categories"] %}
-					<p>{{ category }}</p>
+			<ul class="category-text" style="list-style: none">
+				{% for cat in goddess["categories"] %}
+					<li><img src="../static/cat-pics/{{cat.replace(' ', '%20')}}.jpg" height="50px" width="50px"> {{ cat }}</li>
 				{% endfor %}
-			</p>
+			</ul>
 		</div>
 	
 		<div id="text">

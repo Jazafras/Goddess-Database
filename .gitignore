@@ -6,3 +6,4 @@ index_dir/*
 *.pyc
 *.ipynb
 .ipynb*
+sub_scraped/*
