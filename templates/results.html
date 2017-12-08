@@ -36,7 +36,7 @@
 				{% for goddess in gs %}
 				<tr><a href="#" class="goddess-page-link">
 				  <td>{{ loop.index }}</td>
-				  <td><a href="/goddess/" style="color: #3f1642; text-decoration: none; font-weight: bold;">{{ goddess.title }}</a></td>
+				  <td><a href="/goddess?pageid={{goddess.pageid}}" style="color: #3f1642; text-decoration: none; font-weight: bold;">{{ goddess.title }}</a></td>
 				  <td>{{ goddess.categories }}</td>
 				  <td><img src="{{ goddess.images }}" alt="N/A"></td>
 				</tr>

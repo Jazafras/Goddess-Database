@@ -1,10 +1,11 @@
 import os
+import json
 import whoosh.index
 from flask import Flask, render_template, request, redirect
 
 import indexer
 
-app = Flask(__name__)  # create app instance
+app = Flask(__name__)
 goddesses = []
 
 @app.route("/")
@@ -26,16 +27,12 @@ def search():
         query = request.args
     ix = whoosh.index.open_dir("index_dir")
     goddesses = indexer.return_search(ix, query)
-    #return redirect('/')
     return render_template('results.html', query=query, gs=goddesses)
 
-@app.route("/goddess/")
+@app.route("/goddess/", methods=['POST', 'GET'])
 def goddess():
-    return render_template('goddess_page.html')
+    goddess = json.load(open("data/" + request.args["pageid"] + ".json"))
+    return render_template('goddess_page.html', goddess=goddess)
 
 if __name__ == "__main__":
     app.run(debug=True)
-#OLD CODE
-#search_term = input("Search something: ")
-#ix = index.open_dir("index_dir")
-#results = indexer.search(ix, search_term)

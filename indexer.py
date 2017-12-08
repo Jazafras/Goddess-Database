@@ -39,7 +39,7 @@ def load_goddess(goddess_id):
 
 
 def return_search(indexer, query_string):
-    """For testing purposes, delet this later."""
+    """Unlike "search()", which prints, this returns a goddess."""
     with indexer.searcher() as searcher:
         goddesses = []
         # ideally these parsers would not be created with each search
@@ -90,8 +90,6 @@ def search(indexer, query_string):
                 load_goddess(line['pageid'])['extract'])
             print("Extract of article: {}".format(extract_extract)[:1000])
             print("..." if len(extract_extract) > 1000 else "")
-            #Issues have been had with the previous 2 lines on my [Monte's] Windows8 Box...
-            #I'm also not sure how to print the categories... sad.
 
 
 def get_text_from_html(html_string):
