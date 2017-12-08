@@ -9,6 +9,9 @@ body {
     margin: 0px;
 }
 
+li{
+		list-style-type: none;
+}
 
 h3 {
   font-size: 1.4em;
@@ -177,6 +180,7 @@ tr {
 	padding: 10px 0px 10px 0px;
 	font-family: Josefin Slab;
 	margin-bottom: 0px;
+	clear: left;
 }
 
 #profile-picture {
@@ -193,6 +197,11 @@ tr {
     padding: 5px;
 	background-color: #b3bcc3;
 }
+
+#profile-summary li {
+	text-align: left;
+}
+	
 .button {
     background: -moz-linear-gradient(left, rgba(29,25,25,1) 0%, rgba(29,25,25,1) 68%, rgba(29,25,25,0) 100%); /* FF3.6-15 */
 	background: -webkit-linear-gradient(left, rgba(29,25,25,1) 0%,rgba(29,25,25,1) 68%,rgba(29,25,25,0) 100%); /* Chrome10-25,Safari5.1-6 */

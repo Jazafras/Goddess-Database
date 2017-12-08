@@ -23,12 +23,12 @@
 		<br><br>
 		<div id="profile-summary">
 			<img id="profile-picture" src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/80/Diane_de_Versailles_Leochares.jpg/220px-Diane_de_Versailles_Leochares.jpg" alt="Image"/>
-			<ul class="category-text" style="list-style: none">
+				<p>
 				<b style="font-family: Josefin Slab;">Categories</b><hr>
 				{% for cat in goddess["categories"] %}
 					<li><img src="../static/cat-pics/{{cat.replace(' ', '%20')}}.jpg" height="50px" width="50px"> {{ cat }}</li>
 				{% endfor %}
-			</ul>
+			
 		</div>
 	
 		<div id="text">
