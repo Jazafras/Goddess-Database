@@ -43,8 +43,6 @@ def return_search(indexer, query_string):
     """Unlike "search()", which prints, this returns a goddess."""
     with indexer.searcher() as searcher:
         goddesses = []
-        # ideally these parsers would not be created with each search
-        # but we can change that later
         exact_query = QueryParser(
             "title", schema=indexer.schema).parse(query_string)
         all_query = MultifieldParser(
@@ -55,7 +53,7 @@ def return_search(indexer, query_string):
             pass
         else:
             results = searcher.search(all_query)
-        for line in results:  # just the first 10
+        for line in results:  #first 10
             goddess = {}
             goddess['title'] = line['title']
             goddess['pageid'] = line['pageid']

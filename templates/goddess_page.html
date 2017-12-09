@@ -50,7 +50,7 @@
           <tr>
             <td><a href="/goddess?pageid={{related[i].pageid}}" style="color: #3f1642; text-decoration: none; font-weight: bold;">{{related[i].title}}</td>
             <td rowspan="2">
-            {% if goddess['images'] != None %}
+            {% if 'images' in related[i].keys() %}
               <img class="suggestion-pic" src="../static/goddess_images/images/{{ related[i].images[0].title[5:].replace(' ', '%20').replace(".svg", ".svg.png") }}" alt=""/>
             {% else %}
               <img class="suggestion-pic" src="../static/cat_pics/{{ related[i].categories[0].replace(' ', '%20')}}.jpg" alt=""/>
