@@ -34,21 +34,21 @@
              </tr>
            </thead>
            <tbody>
-           {% for goddess in gs %}
-             <tr><a href="#" class="goddess-page-link">
-               <td>{{ loop.index }}</td>
-               <td><a href="/goddess?pageid={{goddess.pageid}}" style="color: #3f1642; text-decoration: none; font-weight: bold;">{{ goddess.title }}</a></td>
-               <td align="left">{% for cat in goddess.categories %}
+           {% for goddess_index in range(end_index - start_index) %}
+             <tr>
+               <td>{{ loop.index + start_index }}</td>
+               <td><a href="/goddess?pageid={{gs[goddess_index + start_index].pageid}}" style="color: #3f1642; text-decoration: none; font-weight: bold;">{{ gs[goddess_index + start_index].title }}</a></td>
+               <td align="left">{% for cat in gs[goddess_index + start_index].categories %}
                {% if loop.index <= 3 %}
                 <ul>
                   <li><img src="../static/cat_pics/{{cat.lstrip().replace(' ','%20') }}.jpg" height="50px" width="50px"> {{cat}}</li>
                 </ul>
               {% endif %}
             {% endfor %}</td>
-            {% if goddess['images'] != None %}
-              <td><img src="../static/goddess_images/images/{{ goddess.images[0].title }}" alt="" width="200"></td>
+            {% if gs[goddess_index + start_index]['images'] != None %}
+              <td><img src="../static/goddess_images/images/{{ gs[goddess_index + start_index].images[0].title }}" alt="" width="200"></td>
             {% else %}
-              <td><img src="../static/cat_pics/{{ goddess.categories[0].replace(" ", "%20")}}.jpg" alt="" width="200"></td>
+              <td><img src="../static/cat_pics/{{ gs[goddess_index + start_index].categories[0].replace(" ", "%20")}}.jpg" alt="" width="200"></td>
             {% endif %}
             </tr>
           {% endfor %}
@@ -57,6 +57,16 @@
       {% else %}
         <h3 style="text-align: center; padding-top: 30px; padding-bottom: 800px;">No results found for your query: {{ query }}</h3>
       {% endif %}
+      <p id="forward-back-buttons">{% if page_num == 0 %}
+        <span id="back-button">back</span>
+      {% else %}
+        <a href="/search?page_num={{ page_num - 1 }}"><span id="back-button">back</span></a>
+      {% endif %}
+      {% if gs |count > end_index %}
+        <a href="/search?page_num={{ page_num + 1 }}"><span id="forward-button">forward</span></a>
+      {% else %}
+        <span id="forward-button" align="right">forward</span>
+      {% endif %}</p>
     </div>
   </div>
   </div>

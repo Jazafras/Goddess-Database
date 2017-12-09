@@ -213,9 +213,19 @@ tr {
 }
 
 #profile-summary li {
-	text-align: left;
+    text-align: left;
 }
-	
+
+#forward-back-buttons {
+    display: block;
+    margin: 10px;
+}
+#back-button {
+    float: left;
+}
+#forward-button {
+    float: right;
+}
 .button {
     background: -moz-linear-gradient(left, rgba(29,25,25,1) 0%, rgba(29,25,25,1) 68%, rgba(29,25,25,0) 100%); /* FF3.6-15 */
 	background: -webkit-linear-gradient(left, rgba(29,25,25,1) 0%,rgba(29,25,25,1) 68%,rgba(29,25,25,0) 100%); /* Chrome10-25,Safari5.1-6 */

@@ -48,12 +48,12 @@ def return_search(indexer, query_string):
         all_query = MultifieldParser(
             ["title", "extract", "categories", "images"],
             schema=indexer.schema).parse(query_string)
-        results = searcher.search(exact_query)
+        results = searcher.search(exact_query, limit=None)
         if len(results) > 0:
             pass
         else:
-            results = searcher.search(all_query)
-        for line in results:  #first 10
+            results = searcher.search(all_query, limit=None)
+        for line in results:
             goddess = {}
             goddess['title'] = line['title']
             goddess['pageid'] = line['pageid']
