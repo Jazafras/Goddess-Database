@@ -274,7 +274,7 @@ def main():
     save_category_contents()
     save_page_jsons()
     # 160mb of images: you probably don't want to do this just for grading.
-    # save_images()
+    save_images()
     get_categories()
 
 
